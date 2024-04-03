@@ -9,7 +9,7 @@ Welcome to the "week one" branch of my project for the edx course, "Building Mod
 - Detailed examples of interacting with Amazon S3, including creating buckets, uploading files, and listing bucket contents.
 
 ## Project Structure
-- `/s3_examples` contains scripts demonstrating various S3 operations.
+- `.py files` contain scripts demonstrating various S3 accessing operations.
 - `README.md` provides an overview and guide to what's covered in this branch.
 
 ## Learning Objectives
