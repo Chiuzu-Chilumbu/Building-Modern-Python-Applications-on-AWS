@@ -18,8 +18,6 @@ def access_s3_bucket(bucket_name):
     for obj in bucket.objects.all():
         print(obj.key, obj.last_modified)
 
-    # access the client from the resource
-    s3_client = boto3.resource('s3').meta.client
 
 
 def access_s3_bucket_file_data(bucket_name, file_name):
