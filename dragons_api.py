@@ -8,50 +8,70 @@ from typing import List, Dict, Any
 
 
 class DragonsAPI:
-	"""
-	This class provides the GET and POST requests for interacting 
-	with the dragon API
-	"""
+    """
+    This class provides the GET and POST requests for interacting
+    with the dragon API
+    """
 
-	DRAGONS_API_ENDPOINT = "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons"
-	def __init__(self):
-		pass
+    DRAGONS_API_ENDPOINT = "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons"
 
+    def __init__(self):
+        pass
 
-	def dragon_name(self, name:str) -> List[Dict[str, str]]:
-		"""
-		Fetch Dragon by its name and return its content 
+    def dragon_name(self, name: str) -> List[Dict[str, str]]:
+        """
+        Fetch Dragon data by its name and return its content
 
-		Args:
+        Args:
         name (str): The name of the dragon to retrieve.
 
         Returns:
         List[Dict[str, Any]]: A list containing the details of the dragon in JSON format (as dictionaries).
         """
-		try:
-			response = requests.get(f"{self.DRAGONS_API_ENDPOINT}?dragonName={name}", timeout=5)
-			response.raise_for_status()
-			data = response.content.decode('UTF-8')
-			dragon_data = json.loads(data)
-			return dragon_data
-		except requests.HTTPError as err:
-			print("HTTP Error occured: {err}")
+        url = f"{self.DRAGONS_API_ENDPOINT}?dragonName={name}"
+        headers = {}
+        payload = {}
+        
+        try:
+           response = requests.request("GET", url, headers=headers, data=payload, timeout=5)
+           content = response.text
+           dragon_data = json.loads(content)
+           return dragon_data
+        
+        except requests.HTTPError as err:
+            print(f"HTTP Error occured: {err}")
 
 
-	# def list_dragons(self):
-	# 	try:
-	# 		response = requests.get(self.DRAGONS_API_ENDPOINT, timeout=5)
-	# 		response.raise_for_status()
-	# 		data = response.content.decode('UTF-8')
-	# 		dragons_list = json.loads(data)
-	# 		return dragons_list
-		
-	# 	except requests.HTTPError as err:
-	# 		print(f"HTTP Error Occured: {err}")
- 
+    def dragon_family(self,  family: str) -> List[Dict[str, str]]:
+            """
+            Fetch Dragon data by its family colour and return all dragon content with similar colour
+            
+            Args:
+            name (str): The name of the dragon to retrieve.
 
+            Returns:
+            List[Dict[str, Any]]: A list containing the details of the dragon in JSON format (as dictionaries).
+            """
+            url = f"{self.DRAGONS_API_ENDPOINT}?family={family}"
+            headers = {}
+            payload ={}
+            
+            try:
+                response = requests.request("GET", url, headers=headers, data=payload, timeout=5)
+                dragon_family = response.text
+                return dragon_family
+            
+            except requests.HTTPError as err:
+                 print(f"HTTPError occured: {err}")
+                 
+    def dragon_list(self):
+        """
+           
+        """
+         
 
-
-dragon = DragonsAPI()
-print(dragon.dragon_name("Herma"))
+if __name__ == '__main__':
+     dragon = DragonsAPI()
+     print(dragon.dragon_family("black"))
+     #print(dragon.dragon_name("Herma"))
 
