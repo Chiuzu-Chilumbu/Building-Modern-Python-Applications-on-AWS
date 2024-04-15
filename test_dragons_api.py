@@ -5,8 +5,7 @@ from dragons_api import DragonsAPI
 
 @pytest.fixture(scope='function')
 def dragons():
-    dragon = DragonsAPI()
-    return dragon
+    return DragonsAPI()
 
 
 def test_can_create_dragon_api_class(dragons):
