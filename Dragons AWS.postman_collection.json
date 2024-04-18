@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "7eee1bc7-e58a-4e2a-afbc-e278cdc2d7f7",
+		"name": "Dragons AWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23897168"
+	},
+	"item": [
+		{
+			"name": "dragons List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//",
+							"pm.test(\"response is okay\", function (){",
+							"    pm.expect(pm.response.code).to.equal(200)",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons",
+					"protocol": "https",
+					"host": [
+						"tqibofk44h",
+						"execute-api",
+						"ap-northeast-3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"testing",
+						"dragons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dragon family",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is okay\", function (){",
+							"    pm.expect(pm.response.code).to.equal(200)",
+							"})",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons?family=black",
+					"protocol": "https",
+					"host": [
+						"tqibofk44h",
+						"execute-api",
+						"ap-northeast-3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"testing",
+						"dragons"
+					],
+					"query": [
+						{
+							"key": "family",
+							"value": "black"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dragon name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test status is okay\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200)",
+							"}); "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons?dragonName=Herma",
+					"protocol": "https",
+					"host": [
+						"tqibofk44h",
+						"execute-api",
+						"ap-northeast-3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"testing",
+						"dragons"
+					],
+					"query": [
+						{
+							"key": "dragonName",
+							"value": "Herma"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
