@@ -2,8 +2,7 @@
 
 Welcome to my project for the edx course, "Building Modern Python Applications on AWS".
 
-<img src="https://drive.google.com/file/d/1mhSBjPvsP1t3xZUpKjtuy9Q6OdXQkFVJ/view?usp=drive_link" alt="Final Architecture">
-
+![Final Architecture](images/Screenshot 2024-04-03 at 04.36.12.png)
 
 ## Final Architecture
 The diagram above illustrates the final architecture of the project. It shows how different AWS services like Lambda, API Gateway, S3, Step Functions, and others integrate to form a complete serverless application. Here's a brief overview:
