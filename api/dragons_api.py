@@ -2,8 +2,11 @@
 In this module We use the requests library to intract with the dragon API deployed using AWS gateway
 """
 
-from typing import List, Dict
+from typing import List, Dict, Any
 import requests
+import os 
+import json
+
 
 class DragonsAPI:
     """
@@ -12,6 +15,8 @@ class DragonsAPI:
     """
 
     DRAGONS_API_ENDPOINT = "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons"
+   
+    authorisation_token = os.getenv('DRAGON_API_TOKEN')
 
     def __init__(self):
         pass
@@ -27,7 +32,10 @@ class DragonsAPI:
         List[Dict[str, Any]]: A list containing the details of the dragon in string format (as dictionaries).
         """
         url = f"{self.DRAGONS_API_ENDPOINT}?dragonName={name}"
-        headers = {}
+        headers = {
+            'Authorization': self.authorisation_token,
+            'Content-Type': 'application/json'
+        }
         payload = {}
 
         try:
@@ -50,7 +58,10 @@ class DragonsAPI:
         List[Dict[str, Any]]: A list containing the details of the dragon in string format (as dictionaries).
         """
         url = f"{self.DRAGONS_API_ENDPOINT}?family={family}"
-        headers = {}
+        headers = {
+            'Authorization': self.authorisation_token,
+            'Content-Type': 'application/json'
+        }
         payload = {}
 
         try:
@@ -74,7 +85,10 @@ class DragonsAPI:
         """
 
         url = self.DRAGONS_API_ENDPOINT
-        headers = {}
+        headers = {
+            'Authorization': self.authorisation_token,
+            'Content-Type': 'application/json'
+        }
         payload = {}
 
         try:
@@ -87,8 +101,52 @@ class DragonsAPI:
             print(f"An HTTPError occured: {err}")
 
 
+    def create_dragon(self) -> int:
+        """
+        Create a new dragon entry in the API.
+
+        Args:
+            dragon_attributes (Dict[str, Any]): The attributes of the dragon to create.
+
+        Returns:
+            Dict[str, Any]: The response from the API after creating the dragon.
+
+        Raises:
+            requests.HTTPError: An error occurred while making the HTTP request.
+        """
+
+        url = "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons"
+
+ 
+        payload = json.dumps({
+            "description_str": "George is a new dragon, we don't know much about them yet.",
+            "dragon_name_str": "George",
+            "family_str": "green",
+            "location_city_str": "seattle",
+            "location_country_str": "usa",
+            "location_neighborhood_str": "4th st",
+            "location_state_str": "washington"
+        })
+
+
+        headers = {
+            'Authorization': self.authorisation_token,
+            'Content-Type': 'application/json'
+        }
+
+        try:
+            response = requests.request(
+                "POST", url, headers=headers, data=payload, timeout=5)
+            response.raise_for_status()
+            return response.status_code
+        
+        except requests.HTTPError as err:
+            print(f"HTTP Error occurred: {err}")
+            return {'error': str(err)}
+
 if __name__ == '__main__':
     dragon = DragonsAPI()
     print(dragon.dragon_family("black"))
     print(dragon.dragon_name("Herma"))
     print(dragon.dragon_list())
+    print(dragon.create_dragon())
