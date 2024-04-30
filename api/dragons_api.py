@@ -101,7 +101,7 @@ class DragonsAPI:
             print(f"An HTTPError occured: {err}")
 
 
-    def create_dragon(self, dragon_attributes: Dict[str, Any]) -> Dict[str, Any]:
+    def create_dragon(self) -> int:
         """
         Create a new dragon entry in the API.
 
@@ -117,17 +117,15 @@ class DragonsAPI:
 
         url = "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons"
 
-        if not dragon_attributes:
-            payload = json.dumps(dragon_attributes)
-        else:
-            payload = json.dumps({
-        "description_str": "George is a new dragon, we don't know much about them yet.",
-        "dragon_name_str": "George",
-        "family_str": "green",
-        "location_city_str": "seattle",
-        "location_country_str": "usa",
-        "location_neighborhood_str": "4th st",
-        "location_state_str": "washington"
+ 
+        payload = json.dumps({
+            "description_str": "George is a new dragon, we don't know much about them yet.",
+            "dragon_name_str": "George",
+            "family_str": "green",
+            "location_city_str": "seattle",
+            "location_country_str": "usa",
+            "location_neighborhood_str": "4th st",
+            "location_state_str": "washington"
         })
 
 
@@ -140,7 +138,7 @@ class DragonsAPI:
             response = requests.request(
                 "POST", url, headers=headers, data=payload, timeout=5)
             response.raise_for_status()
-            return response.status_code()
+            return response.status_code
         
         except requests.HTTPError as err:
             print(f"HTTP Error occurred: {err}")
@@ -148,7 +146,7 @@ class DragonsAPI:
 
 if __name__ == '__main__':
     dragon = DragonsAPI()
-    # print(dragon.dragon_family("black"))
-    # print(dragon.dragon_name("Herma"))
-    # print(dragon.dragon_list())
-    print(dragon.create_dragon(None))
+    print(dragon.dragon_family("black"))
+    print(dragon.dragon_name("Herma"))
+    print(dragon.dragon_list())
+    print(dragon.create_dragon())
