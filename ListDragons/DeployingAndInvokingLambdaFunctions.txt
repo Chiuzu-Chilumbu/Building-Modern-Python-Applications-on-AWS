@@ -1,0 +1,12 @@
+CLI command list 
+
+Parameters
+1. aws ssm put-parameter --name "dragon_data_bucket_name" --value "your-bucket-name" --type "String"
+2. aws ssm put-parameter --name "dragon_data_file_name" --value "your-file-name.json" --type "String"
+
+
+1. export ROLE_ARN_READWRITE=`aws iam get-role --role-name dragons-readwrite-lambda-role  --query 'Role.Arn' --output text`
+2. export ROLE_ARN_READ=`aws iam get-role --role-name dragons-read-lambda-role  --query 'Role.Arn' --output text`
+3. echo $ROLE_ARN_READ $ROLE_ARN_READWRITE
+4. cd ~/python-dragons-lambda/ListDragons
+5. pip3 install -t package boto3
