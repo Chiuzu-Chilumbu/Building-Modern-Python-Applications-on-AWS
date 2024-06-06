@@ -23,13 +23,11 @@ def mock_ssm_client():
 def mock_s3_client():
     with Stubber(boto3.client('s3', region_name='ap-northeast-3')) as stubber:
         payload = {
-            'Payload': [
-                {
-                    'Records': {
-                        'Payload': b'{"dragon_name_str": "Atlas", "family_str": "red"}\n'
-                    }
+            'Payload': {
+                'Records': {
+                    'Payload': b'{"dragon_name_str": "Atlas", "family_str": "red"}\n'
                 }
-            ]
+            }
         }
         stubber.add_response('select_object_content', payload, {
             'Bucket': 'your-bucket-name',
