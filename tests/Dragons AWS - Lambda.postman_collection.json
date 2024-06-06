@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "7eee1bc7-e58a-4e2a-afbc-e278cdc2d7f7",
+		"name": "Dragons AWS - Lambda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23897168"
+	},
+	"item": [
+		{
+			"name": "List Dragons",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//good path tests",
+							"pm.test(\"response status code is 200\", function (){",
+							"    pm.expect(pm.response.code).to.equal(200)",
+							"})",
+							"",
+							"",
+							"pm.test(\"response should contain an array json body\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array')",
+							"})",
+							"",
+							"//validate dragon entitiy attributes",
+							"pm.test(\"response data should contain all desired dragon attributes\", function () {",
+							"     var dragons = pm.response.json();",
+							"     dragons.forEach((dragon) => {",
+							"            pm.expect(dragon).to.have.property('description_str');",
+							"            pm.expect(dragon).to.have.property('dragon_name_str');",
+							"            pm.expect(dragon).to.have.property('family_str');",
+							"            pm.expect(dragon).to.have.property('location_city_str');",
+							"            pm.expect(dragon).to.have.property('location_country_str');",
+							"            pm.expect(dragon).to.have.property('location_neighborhood_str');",
+							"            pm.expect(dragon).to.have.property('location_state_str');",
+							"     });",
+							"})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJraWQiOiIyMEtMWkJqQWJjXC9Pc1ZteDJcL0VFSjZxK2Z2dDMwa0NETmRVRENSMlBuQ289IiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoiLVE4YzZ3Yk1RYlFQNTQtUGJ6SkUyZyIsInN1YiI6IjQ1Y2FiN2IwLTMwMjEtNzBkOS0zY2FjLTk3N2FkZTMzYjI5YSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuYXAtbm9ydGhlYXN0LTMuYW1hem9uYXdzLmNvbVwvYXAtbm9ydGhlYXN0LTNfYlZ3dVdSOXk3IiwiY29nbml0bzp1c2VybmFtZSI6ImNoaXV6dSIsImF1ZCI6InZ0ZHRzYjEyajZnb3BycmhyMG5mM2JwOCIsImV2ZW50X2lkIjoiZDQ4MWJhYzItOWI0OS00MzNjLWJlMGYtZTQ4NDUyOTQ2MzBjIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3MTc2MjY4NDAsImV4cCI6MTcxNzYzMDQ0MCwiaWF0IjoxNzE3NjI2ODQwLCJqdGkiOiIwNmUwMDM1OS0xMGZmLTRkNjMtODhjZC00NGM2NTg1ZTA0NzIiLCJlbWFpbCI6ImNoaXV6dWJlbm55QGhvdG1haWwuY29tIn0.sjR07wdT1D-Iy5jZPHTJu1y6FDp0nIWicvp81gJ02MS_EQbin8XxKhQZP6BreZffdqhSWJyBt_QJfHz3kErLh3Lj_2FtjaoBzJByDw7xhG2ZL91EJ8TsCsPRouyBly_gs8e11um-IOfVjgEJ-CwlXMpC8APg3Am2pA8qrGmafJLmUlDsHuarxQ55Cq4Djdr25ZfUwZstbQdd21s54SyziUV5fXdaff4Ry2KAoLIL25wCRShCGg2-IUjUKoTpVfT3V6e_xDNal2qNVQ7Ppi7TfMMzOjy1KYToVN6phYo4Y9NuUFT-uzO9WYPO1708k0kXzk9931ul8nmVroY4HSCopQ"
+					}
+				],
+				"url": {
+					"raw": "https://tqibofk44h.execute-api.ap-northeast-3.amazonaws.com/testing/dragons",
+					"protocol": "https",
+					"host": [
+						"tqibofk44h",
+						"execute-api",
+						"ap-northeast-3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"testing",
+						"dragons"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
