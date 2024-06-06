@@ -20,17 +20,18 @@ jobs:
           python -m pip install --upgrade pip 
           pip install requests
           pip install pytest
-          
+          pip install boto3  # Add boto3 to the list of dependencies
+          pip install pytest-mock  # Ensure pytest-mock is installed
       - name: Run Python tests
         env:
           DRAGON_API_TOKEN: ${{ secrets.DRAGON_API_TOKEN }}  # Set the environment variable for use in tests
-        run: python3 -m pytest
+        run: python3 -m pytest tests/
 
   postman-tests:
     needs: python-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Install Postman CLI
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
@@ -38,4 +39,4 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "23897168-7eee1bc7-e58a-4e2a-afbc-e278cdc2d7f7"
+          postman collection run "tests/Dragons AWS - Lambda.postman_collection.json"
