@@ -8,7 +8,7 @@ import json
 from ListDragons.listDragons import listDragons  # Replace 'your_module' with the actual module name
 
 @pytest.fixture
-def ssm_stub():
+def mock_ssm_client():
     with Stubber(boto3.client('ssm', region_name='ap-northeast-3')) as stubber:
         stubber.add_response('get_parameter', {
             'Parameter': {'Value': 'your-bucket-name'}
@@ -20,14 +20,16 @@ def ssm_stub():
         stubber.deactivate()
 
 @pytest.fixture
-def s3_stub():
+def mock_s3_client():
     with Stubber(boto3.client('s3', region_name='ap-northeast-3')) as stubber:
         payload = {
-            'Payload': {
-                'Records': {
-                    'Payload': b'{"dragon_name_str": "Atlas", "family_str": "red"}\n'
+            'Payload': [
+                {
+                    'Records': {
+                        'Payload': b'{"dragon_name_str": "Atlas", "family_str": "red"}\n'
+                    }
                 }
-            }
+            ]
         }
         stubber.add_response('select_object_content', payload, {
             'Bucket': 'your-bucket-name',
@@ -41,8 +43,12 @@ def s3_stub():
         stubber.deactivate()
 
 @patch('boto3.client')
-def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
-    mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
+def test_list_dragons_json_response(mock_boto_client, mock_ssm_client, mock_s3_client):
+    mock_boto_client.side_effect = lambda service, region_name: {
+        'ssm': mock_ssm_client.client,
+        's3': mock_s3_client.client,
+    }[service]
+    
     event = {
         'queryStringParameters': {
             'dragonName': 'Atlas'
@@ -58,8 +64,12 @@ def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
     assert 'family_str' in body_json
 
 @patch('boto3.client')
-def test_list_dragons_contains_expected_attributes(mock_boto_client, ssm_stub, s3_stub):
-    mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
+def test_list_dragons_contains_expected_attributes(mock_boto_client, mock_ssm_client, mock_s3_client):
+    mock_boto_client.side_effect = lambda service, region_name: {
+        'ssm': mock_ssm_client.client,
+        's3': mock_s3_client.client,
+    }[service]
+    
     event = {
         'queryStringParameters': {
             'dragonName': 'Atlas'
