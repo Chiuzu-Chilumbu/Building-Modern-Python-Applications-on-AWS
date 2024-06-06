@@ -2,9 +2,9 @@ name: Dragons API Continuous Integration
 
 on:
   push:
-    branches: [ main ]  # Only run on push events to the main branch
+    branches: [ main ]
   pull_request:
-    branches: [ main ]  # Only run on pull requests targeting the main branch
+    branches: [ main ]
 
 jobs:
   python-tests:
@@ -20,18 +20,19 @@ jobs:
           python -m pip install --upgrade pip 
           pip install requests
           pip install pytest
-          pip install boto3  # Add boto3 to the list of dependencies
-          pip install pytest-mock  # Ensure pytest-mock is installed
+          pip install boto3
       - name: Run Python tests
         env:
-          DRAGON_API_TOKEN: ${{ secrets.DRAGON_API_TOKEN }}  # Set the environment variable for use in tests
-        run: python3 -m pytest tests/
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: python3 -m pytest
 
   postman-tests:
     needs: python-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Postman CLI
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
@@ -39,4 +40,4 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "tests/Dragons AWS - Lambda.postman_collection.json"
+          postman collection run "23897168-7eee1bc7-e58a-4e2a-afbc-e278cdc2d7f7"

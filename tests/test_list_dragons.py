@@ -1,5 +1,3 @@
-"""In this module we test the lambda function list dragon"""
-
 from unittest.mock import patch
 import boto3
 import pytest
@@ -8,7 +6,7 @@ import json
 from ListDragons.listDragons import listDragons  # Replace 'your_module' with the actual module name
 
 @pytest.fixture
-def mock_ssm_client():
+def ssm_stub():
     with Stubber(boto3.client('ssm', region_name='ap-northeast-3')) as stubber:
         stubber.add_response('get_parameter', {
             'Parameter': {'Value': 'your-bucket-name'}
@@ -20,7 +18,7 @@ def mock_ssm_client():
         stubber.deactivate()
 
 @pytest.fixture
-def mock_s3_client():
+def s3_stub():
     with Stubber(boto3.client('s3', region_name='ap-northeast-3')) as stubber:
         payload = {
             'Payload': {
@@ -41,12 +39,8 @@ def mock_s3_client():
         stubber.deactivate()
 
 @patch('boto3.client')
-def test_list_dragons_json_response(mock_boto_client, mock_ssm_client, mock_s3_client):
-    mock_boto_client.side_effect = lambda service, region_name: {
-        'ssm': mock_ssm_client.client,
-        's3': mock_s3_client.client,
-    }[service]
-    
+def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
+    mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
     event = {
         'queryStringParameters': {
             'dragonName': 'Atlas'
@@ -58,16 +52,15 @@ def test_list_dragons_json_response(mock_boto_client, mock_ssm_client, mock_s3_c
     assert result['statusCode'] == 200
     body = result['body']
     body_json = json.loads(body)
+    # Convert body_json to a list if it's not
+    if isinstance(body_json, str):
+        body_json = json.loads(body_json)
     assert 'dragon_name_str' in body_json
     assert 'family_str' in body_json
 
 @patch('boto3.client')
-def test_list_dragons_contains_expected_attributes(mock_boto_client, mock_ssm_client, mock_s3_client):
-    mock_boto_client.side_effect = lambda service, region_name: {
-        'ssm': mock_ssm_client.client,
-        's3': mock_s3_client.client,
-    }[service]
-    
+def test_list_dragons_contains_expected_attributes(mock_boto_client, ssm_stub, s3_stub):
+    mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
     event = {
         'queryStringParameters': {
             'dragonName': 'Atlas'
@@ -77,6 +70,9 @@ def test_list_dragons_contains_expected_attributes(mock_boto_client, mock_ssm_cl
     result = listDragons(event, context)
     body = result['body']
     body_json = json.loads(body)
+    # Convert body_json to a list if it's not
+    if isinstance(body_json, str):
+        body_json = json.loads(body_json)
     assert 'dragon_name_str' in body_json
     assert 'family_str' in body_json
     assert body_json['dragon_name_str'] == 'Atlas'
