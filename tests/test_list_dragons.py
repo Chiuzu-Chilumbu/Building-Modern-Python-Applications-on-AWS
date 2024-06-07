@@ -3,7 +3,7 @@ import boto3
 import pytest
 from botocore.stub import Stubber
 import json
-from lambda_handlers.ListDragons.listDragons import listDragons  
+from lambda_handlers.ListDragons.listDragons import listDragons
 
 
 @pytest.fixture
@@ -40,6 +40,7 @@ def s3_stub():
         yield stubber
         stubber.deactivate()
 
+
 @patch('boto3.client')
 def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
     mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
@@ -62,7 +63,8 @@ def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
 
 
 @patch('boto3.client')
-def test_list_dragons_contains_expected_attributes(mock_boto_client, ssm_stub, s3_stub):
+def test_list_dragons_contains_expected_attributes(
+        mock_boto_client, ssm_stub, s3_stub):
     mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
     event = {
         'queryStringParameters': {

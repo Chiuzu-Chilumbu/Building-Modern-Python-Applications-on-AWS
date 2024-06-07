@@ -5,7 +5,8 @@ import boto3
 import pytest
 from botocore.stub import Stubber
 import json
-from AddDragon.addDragon import addDragonToFile
+from lambda_handlers.AddDragon.addDragon import addDragonToFile
+
 
 @pytest.fixture
 def ssm_stub():
@@ -18,6 +19,7 @@ def ssm_stub():
         }, {'Name': 'dragon_data_file_name', 'WithDecryption': False})
         yield stubber
         stubber.deactivate()
+
 
 @pytest.fixture
 def s3_stub():
@@ -43,17 +45,18 @@ def s3_stub():
                 "location_neighborhood_str": "4th st",
                 "location_state_str": "washington"
             }, {
-                "description_str":"Existing dragon",
-                "dragon_name_str":"Existing",
-                "family_str":"red",
-                "location_city_str":"City",
-                "location_country_str":"Country",
-                "location_neighborhood_str":"Neighborhood",
-                "location_state_str":"State"
+                "description_str": "Existing dragon",
+                "dragon_name_str": "Existing",
+                "family_str": "red",
+                "location_city_str": "City",
+                "location_country_str": "Country",
+                "location_neighborhood_str": "Neighborhood",
+                "location_state_str": "State"
             }])
         })
         yield stubber
         stubber.deactivate()
+
 
 @patch('boto3.client')
 def test_add_dragon(mock_boto_client, ssm_stub, s3_stub):
@@ -70,7 +73,7 @@ def test_add_dragon(mock_boto_client, ssm_stub, s3_stub):
     context = {}
 
     result = addDragonToFile(event, context)
-    
+
     assert isinstance(result, dict)
     assert result['statusCode'] == 200
     assert result['body'] is None
