@@ -1,9 +1,10 @@
 # Building-Modern-Python-Applications-on-AWS
 
-## Week One: Exploring AWS with Python
+## Week 1
 
-Welcome to the "week one" branch of my project for the edx course, "Building Modern Python Applications on AWS". This week focuses on getting hands-on experience with the AWS SDK, specifically `boto3`, and applying it to real AWS services.
+This week focuses on getting hands-on experience with the AWS SDK, specifically `boto3`, and applying it to real AWS services.
 
+### Exploring AWS with Python
 ## Highlights
 - Introduction to `boto3`, the AWS SDK for Python.
 - Detailed examples of interacting with Amazon S3, including creating buckets, uploading files, and listing bucket contents.
