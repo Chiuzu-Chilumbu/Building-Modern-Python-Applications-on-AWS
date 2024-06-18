@@ -6,7 +6,7 @@ Welcome to my project for the edx course, "Building Modern Python Applications o
 
 Week 3 focuses on enhancing our Dragons API by introducing AWS Lambda functions to handle GET requests, moving from mock testing to stubbing, and integrating Postman for comprehensive integration testing. Here's a detailed breakdown of the architecture and the new components introduced this week:
 
-![Updated Architecture](ListDragons/listDragons.py)
+![Updated Architecture](images/List.png)
 
 ### Components:
 - **Amazon API Gateway**: Acts as the single entry point for all API requests, routing them to the appropriate backend services.
