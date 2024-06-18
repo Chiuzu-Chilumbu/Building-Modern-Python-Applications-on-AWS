@@ -1,18 +1,44 @@
 # Building Modern Python Applications on AWS
 
-Welcome to my project for the edx course, "Building Modern Python Applications on AWS".
+Welcome to my project for the edX course, "Building Modern Python Applications on AWS".
 
-![Final Architecture](images/FinalArchitecture.png)
+## Week 5
 
-## Final Architecture
+Week 5 completes the GET and POST operations of the API Gateway and integrates AWS Step Functions to manage workflows between the Lambda functions. This week also includes the addition of Python Postman integration tests to ensure comprehensive testing coverage.
 
-The diagram above illustrates the final architecture of the project. It shows how different AWS services like Lambda, API Gateway, S3, Step Functions, and others integrate to form a complete serverless application. Here's a brief overview:
+![Updated Architecture](Limages/FinalArchitecture.png)
 
-- **Amazon API Gateway**: Serves as the entry point for the application, managing and routing incoming requests.
-- **AWS Lambda**: Contains the business logic, with functions like `listDragons` for retrieving data and `validateDragon` & `addDragon` for processing new entries.
-- **Amazon S3**: Used for storing persistent data, such as a database of dragons or user-uploaded content.
-- **AWS Step Functions**: Orchestrates the workflow between different Lambda functions, especially in handling more complex operations like adding new dragons.
-- **Parameter Store**: Manages configuration data and secrets, ensuring secure access to vital application parameters.
-- **Amazon SNS**: Facilitates message broadcasting and subscription, useful for notifications or inter-service communication.
+### Components:
+- **Amazon API Gateway**: Acts as the single entry point for all API requests, routing them to the appropriate backend services.
+- **Amazon Cognito**: Manages user authentication and authorization.
+- **AWS Lambda (`listDragons`, `validateDragon`, `addDragon` functions)**: Handles GET requests to retrieve dragon data, validates dragon data, and handles POST requests to add new dragons.
+- **Amazon S3**: Stores the `Dragons.json` file, which contains information about dragons.
+- **AWS Systems Manager (Parameter Store)**: Stores configuration parameters such as the S3 bucket name and file name.
+- **AWS Step Functions**: Orchestrates workflows between the Lambda functions, especially for the `addDragon` process.
 
-This setup is designed for high availability and scalability, leveraging the fully managed services provided by AWS.
+### Workflow:
+1. **User Interaction**: Users interact with the API through the Amazon API Gateway, initiating requests to retrieve, validate, and add dragon data.
+2. **Authentication**: Users are authenticated via Amazon Cognito.
+3. **API Gateway Processing**: The API Gateway routes the authenticated requests to the appropriate Lambda function (`listDragons`, `validateDragon`, or `addDragon`).
+4. **Data Retrieval and Manipulation**:
+   - **listDragons**: Retrieves the S3 bucket name and file name from the Parameter Store, reads the `Dragons.json` file from S3, processes the data, and returns it to the user.
+   - **validateDragon**: Validates the input data for adding a new dragon.
+   - **addDragon**: Validates the input data using the `validateDragon` function and, if valid, updates the `Dragons.json` file in S3 with the new dragon information.
+5. **Step Functions Orchestration**: Manages the workflow between the Lambda functions, ensuring that each step in the process is executed in the correct order.
+
+### CI/CD and Testing:
+- **Continuous Integration (CI)**: GitHub Actions are used to automate the testing and deployment process.
+- **Unit Testing with Stubbing**: We use pytest and boto3's Stubber for unit testing, ensuring the Lambda functions behave correctly by stubbing out AWS service calls.
+- **Integration Testing with Postman**: Postman is used to run comprehensive integration tests, verifying the API's functionality and behavior in real-world scenarios.
+- **Python Postman Integration Tests**: Ensures that the API endpoints are thoroughly tested, covering both GET and POST operations.
+
+### Lambda Functions:
+1. **listDragons**: Handles GET requests to retrieve dragon data.
+2. **validateDragon**: Validates the dragon data before adding it.
+3. **addDragon**: Handles POST requests to add new dragons, utilizing the `validateDragon` function for data validation.
+
+### CI/CD Pipeline:
+
+The CI/CD pipeline ensures that every change is tested and deployed automatically, maintaining the integrity and functionality of the API.
+
+This week's focus has been on completing the GET and POST operations of the API Gateway, integrating AWS Step Functions to manage workflows, and ensuring robust integration testing with Python Postman tests. These updates finalize the functionality, reliability, and scalability of the Dragons API.
