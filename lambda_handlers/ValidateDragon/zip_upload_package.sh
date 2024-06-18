@@ -4,9 +4,9 @@
 
 # Define variables
 PACKAGE_DIR="package"
-ZIP_FILE="pythonlistDragonsFunction.zip"
-LAMBDA_FUNCTION_NAME="AddDragons"
-PYTHON_FILE="addDragon.py"
+ZIP_FILE="pythonvalidateDragonFunction.zip "
+LAMBDA_FUNCTION_NAME="validateDragon"
+PYTHON_FILE="validateDragon.py"
 ROLE_ARN_READ="arn:aws:iam::123456789012:role/lambda-ex" # Example lambda role ARN
 
 # Step 1: Install boto3 package into the package directory
@@ -29,15 +29,16 @@ zip -g $ZIP_FILE $PYTHON_FILE
 
 # Step 6: Create the AWS Lambda function
 echo "Creating AWS Lambda function..."
-aws lambda create-function --function-name AddDragon \
+aws lambda create-function --function-name ValidateDragon \
 --runtime python3.9  \
---role $ROLE_ARN_READWRITE \
---handler addDragon.addDragonToFile \
+--role $ROLE_ARN_READ \
+--handler validateDragon.validate \
 --publish \
---zip-file fileb://pythonaddDragonFunction.zip
+--zip-file fileb://pythonvalidateDragonFunction.zip
 
 # Step 7: Invoke the AWS Lambda function
 echo "Invoking AWS Lambda function..."
-aws lambda invoke --function-name AddDragon --payload fileb://newDragonPayload.json output.txt ; cat output.txt
+aws lambda invoke --function-name ValidateDragon --payload fileb://newDragonPayload.json output.txt ; cat output.txt
+aws lambda invoke --function-name ValidateDragon --payload fileb://duplicateDragonPayload.json output.txt ; cat output.txt
 
 echo "Process completed."

@@ -4,8 +4,8 @@
 
 # Define variables
 PACKAGE_DIR="package"
-ZIP_FILE="pythonlistDragonsFunction.zip"
-LAMBDA_FUNCTION_NAME="AddDragons"
+ZIP_FILE="pythonaddDragonFunction.zip"
+LAMBDA_FUNCTION_NAME="AddDragon"
 PYTHON_FILE="addDragon.py"
 ROLE_ARN_READ="arn:aws:iam::123456789012:role/lambda-ex" # Example lambda role ARN
 
