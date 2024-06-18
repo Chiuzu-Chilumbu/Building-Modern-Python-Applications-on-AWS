@@ -8,9 +8,11 @@ Week 5 completes the GET and POST operations of the API Gateway and integrates A
 
 ![Updated Architecture](images/FinalArchitecture.png)
 
+
 ### Components:
 - **Amazon API Gateway**: Acts as the single entry point for all API requests, routing them to the appropriate backend services.
 - **Amazon Cognito**: Manages user authentication and authorization.
+
 - **AWS Lambda (`listDragons`, `validateDragon`, `addDragon` functions)**: Handles GET requests to retrieve dragon data, validates dragon data, and handles POST requests to add new dragons.
 - **Amazon S3**: Stores the `Dragons.json` file, which contains information about dragons.
 - **AWS Systems Manager (Parameter Store)**: Stores configuration parameters such as the S3 bucket name and file name.
@@ -36,6 +38,7 @@ Week 5 completes the GET and POST operations of the API Gateway and integrates A
 1. **listDragons**: Handles GET requests to retrieve dragon data.
 2. **validateDragon**: Validates the dragon data before adding it.
 3. **addDragon**: Handles POST requests to add new dragons, utilizing the `validateDragon` function for data validation.
+
 
 ### CI/CD Pipeline:
 
