@@ -3,7 +3,8 @@ import boto3
 import pytest
 from botocore.stub import Stubber
 import json
-from ListDragons.listDragons import listDragons  # Replace 'your_module' with the actual module name
+from lambda_handlers.ListDragons.listDragons import listDragons
+
 
 @pytest.fixture
 def ssm_stub():
@@ -16,6 +17,7 @@ def ssm_stub():
         }, {'Name': 'dragon_data_file_name', 'WithDecryption': False})
         yield stubber
         stubber.deactivate()
+
 
 @pytest.fixture
 def s3_stub():
@@ -38,6 +40,7 @@ def s3_stub():
         yield stubber
         stubber.deactivate()
 
+
 @patch('boto3.client')
 def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
     mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
@@ -58,8 +61,10 @@ def test_list_dragons_json_response(mock_boto_client, ssm_stub, s3_stub):
     assert 'dragon_name_str' in body_json
     assert 'family_str' in body_json
 
+
 @patch('boto3.client')
-def test_list_dragons_contains_expected_attributes(mock_boto_client, ssm_stub, s3_stub):
+def test_list_dragons_contains_expected_attributes(
+        mock_boto_client, ssm_stub, s3_stub):
     mock_boto_client.side_effect = [ssm_stub.client, s3_stub.client]
     event = {
         'queryStringParameters': {
