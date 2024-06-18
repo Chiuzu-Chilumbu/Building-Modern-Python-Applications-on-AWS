@@ -2,17 +2,33 @@
 
 Welcome to my project for the edx course, "Building Modern Python Applications on AWS".
 
-![Final Architecture](images/FinalArchitecture.png)
+## Week 3
 
-## Final Architecture
+Week 3 focuses on enhancing our Dragons API by introducing AWS Lambda functions to handle GET requests, moving from mock testing to stubbing, and integrating Postman for comprehensive integration testing. Here's a detailed breakdown of the architecture and the new components introduced this week:
 
-The diagram above illustrates the final architecture of the project. It shows how different AWS services like Lambda, API Gateway, S3, Step Functions, and others integrate to form a complete serverless application. Here's a brief overview:
+![Updated Architecture](ListDragons/listDragons.py)
 
-- **Amazon API Gateway**: Serves as the entry point for the application, managing and routing incoming requests.
-- **AWS Lambda**: Contains the business logic, with functions like `listDragons` for retrieving data and `validateDragon` & `addDragon` for processing new entries.
-- **Amazon S3**: Used for storing persistent data, such as a database of dragons or user-uploaded content.
-- **AWS Step Functions**: Orchestrates the workflow between different Lambda functions, especially in handling more complex operations like adding new dragons.
-- **Parameter Store**: Manages configuration data and secrets, ensuring secure access to vital application parameters.
-- **Amazon SNS**: Facilitates message broadcasting and subscription, useful for notifications or inter-service communication.
+### Components:
+- **Amazon API Gateway**: Acts as the single entry point for all API requests, routing them to the appropriate backend services.
+- **Amazon Cognito**: Manages user authentication and authorization.
+- **AWS Lambda (`listDragons` function)**: Handles GET requests to retrieve dragon data. This serverless function processes the request and interacts with other AWS services.
+- **Amazon S3**: Stores the `Dragons.json` file, which contains information about dragons.
+- **AWS Systems Manager (Parameter Store)**: Stores configuration parameters such as the S3 bucket name and file name.
 
-This setup is designed for high availability and scalability, leveraging the fully managed services provided by AWS.
+### Workflow:
+1. **User Interaction**: Users interact with the API through the Amazon API Gateway, initiating requests to retrieve dragon data.
+2. **Authentication**: Users are authenticated via Amazon Cognito.
+3. **API Gateway Processing**: The API Gateway routes the authenticated requests to the `listDragons` Lambda function.
+4. **Data Retrieval**: The Lambda function retrieves the S3 bucket name and file name from the Parameter Store, reads the `Dragons.json` file from S3, processes the data, and returns it to the user.
+
+
+### CI/CD and Testing:
+- **Continuous Integration (CI)**: GitHub Actions are used to automate the testing and deployment process.
+- **Unit Testing with Stubbing**: We use pytest and boto3's Stubber for unit testing, ensuring the Lambda function behaves correctly by stubbing out AWS service calls.
+- **Integration Testing with Postman**: Postman is used to run comprehensive integration tests, verifying the API's functionality and behavior in a real-world scenario.
+
+### CI/CD Pipeline:
+
+The CI/CD pipeline ensures that every change is tested and deployed automatically, maintaining the integrity and functionality of the API.
+
+This week's focus has been on integrating AWS Lambda for efficient request handling, transitioning from mock testing to stubbing for more accurate unit tests, and ensuring robust integration testing with Postman. These updates enhance the functionality, reliability, and scalability of the Dragons API.
