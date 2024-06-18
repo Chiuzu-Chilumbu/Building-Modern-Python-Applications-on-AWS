@@ -1,7 +1,3 @@
-Here's the updated README for your project, including your contributions such as Postman integration tests, Python pytest tests, and the CI pipeline:
-
----
-
 # Building Modern Python Applications on AWS
 
 Welcome to my project for the edX course, "Building Modern Python Applications on AWS".
