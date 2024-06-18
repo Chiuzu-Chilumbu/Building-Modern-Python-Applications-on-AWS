@@ -6,7 +6,7 @@ Welcome to my project for the edX course, "Building Modern Python Applications o
 
 Week 5 completes the GET and POST operations of the API Gateway and integrates AWS Step Functions to manage workflows between the Lambda functions. This week also includes the addition of Python Postman integration tests to ensure comprehensive testing coverage.
 
-![Updated Architecture](Limages/FinalArchitecture.png)
+![Updated Architecture](images/FinalArchitecture.png)
 
 ### Components:
 - **Amazon API Gateway**: Acts as the single entry point for all API requests, routing them to the appropriate backend services.
