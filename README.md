@@ -2,6 +2,8 @@
 
 Welcome to my project for the edX course, "Building Modern Python Applications on AWS".
 
+## Week 0: First Week
+
 ![Final Architecture](images/FinalArchitecture.png) 
 
 ## Final Architecture
