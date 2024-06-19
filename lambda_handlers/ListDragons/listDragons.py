@@ -2,6 +2,11 @@
 
 import boto3
 import json
+from aws_xray_sdk.core import patch_all
+
+
+# call patch all method 
+patch_all()
 
 # Declare variables outside handler to reduce initialization on startup
 s3 = boto3.client('s3', 'ap-northeast-3')
