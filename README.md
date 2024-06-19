@@ -11,7 +11,9 @@ Week 6 focuses on optimizing our application by monitoring and collecting logs a
 ### Components:
 - **Amazon API Gateway**: Acts as the single entry point for all API requests, routing them to the appropriate backend services.
 - **Amazon Cognito**: Manages user authentication and authorization.
+
 - **AWS Lambda (`listDragons`, `validateDragon`, `addDragon` functions)**: Handles GET and POST requests to retrieve, validate, and add dragon data.
+
 - **Amazon S3**: Stores the `Dragons.json` file, which contains information about dragons.
 - **AWS Systems Manager (Parameter Store)**: Stores configuration parameters such as the S3 bucket name and file name.
 - **AWS Step Functions**: Orchestrates workflows between the Lambda functions.
